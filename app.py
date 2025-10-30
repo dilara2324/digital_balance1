@@ -12,26 +12,26 @@ minutes = st.number_input("Bugun internetni necha daqiqa ishlatmoqchisiz?", min_
 
 if st.button("Boshlash"):
     st.success(f"⏰ Vaqt boshlandi: {minutes} daqiqa")
-    with st.spinner(f"{minutes} daqiqa davomida vaqt nazorati ishlayapti...⌛"):  # shu joy to‘g‘rilandi
-        time.sleep(minutes * 60)  # haqiqiy daqiqa asosida ishlaydi
-    st.warning("⏳ Vaqt tugadi! Dam oling, real hayotga e’tibor bering ❤️")
+    with st.spinner(f"{minutes} daqiqa davomida vaqt nazorati ishlayapti...⌛"):
+        time.sleep(minutes * 60)
+    st.warning("⏳ Vaqt tugadi! Dam oling, real hayotga e'tibor bering ❤️")
 
 # 2️⃣ O‘quv testi
 st.header("🧠 Axborot madaniyati testi")
 st.write("Quyidagi savollarga javob bering:")
 
 savollar = {
-    "Internetda noma’lum havolani bosish xavflimi?": ["Ha", "Yo‘q", "Ba’zida"],
+    "Internetda noma'lum havolani bosish xavflimi?": ["Ha", "Yo‘q", "Ba'zida"],
     "Parolingizni boshqalar bilan ulashish mumkinmi?": ["Ha", "Yo‘q", "Faqat do‘stlar bilan"],
     "Kiberbulling (online haqorat)ga duch kelsangiz nima qilasiz?": [
-        "E’tibor bermayman",
+        "E'tibor bermayman",
         "Ishonchli kattalarga aytaman",
-        "O‘zim ham javob qaytaraman"
+        "O'zim ham javob qaytaraman"
     ]
 }
 
 javoblar = {
-    "Internetda noma’lum havolani bosish xavflimi?": "Ha",
+    "Internetda noma'lum havolani bosish xavflimi?": "Ha",
     "Parolingizni boshqalar bilan ulashish mumkinmi?": "Yo‘q",
     "Kiberbulling (online haqorat)ga duch kelsangiz nima qilasiz?": "Ishonchli kattalarga aytaman"
 }
@@ -42,9 +42,9 @@ for savol, variantlar in savollar.items():
     foydalanuvchi_javoblari[savol] = javob
 
 if st.button("Natijani ko‘rish"):
-    to‘g‘ri = sum(foydalanuvchi_javoblari[s] == javoblar[s] for s in savollar)
-    st.success(f"Siz {len(savollar)} savoldan {to‘g‘ri} tasiga to‘g‘ri javob berdingiz 🎉")
-    if to‘g‘ri == len(savollar):
+    togri = sum(foydalanuvchi_javoblari[s] == javoblar[s] for s in savollar)
+    st.success(f"Siz {len(savollar)} savoldan {togri} tasiga to‘g‘ri javob berdingiz 🎉")
+    if togri == len(savollar):
         st.balloons()
     else:
         st.info("Yaxshi harakat! Qayta urinib ko‘rishingiz mumkin 🧠")
