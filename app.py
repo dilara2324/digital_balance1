@@ -1,90 +1,55 @@
 import streamlit as st
 import time
-import random
 
-st.set_page_config(page_title="Digital Balance", page_icon="🌐", layout="centered")
+st.set_page_config(page_title="Digital Balance", page_icon="⏱", layout="centered")
+
 st.title("🌐 Digital Balance")
-st.subheader("Internet va real hayot muvozanatini saqlang 💡")
+st.subheader("Internetdan foydalanish vaqtini nazorat qiluvchi va o‘rgatuvchi tizim")
 
-menu = st.sidebar.radio("Bo‘limni tanlang:", [
-    "⏱ Internet vaqtini nazorat qilish",
-    "🔒 Kiberxavfsizlik tekshiruvi",
-    "🧠 O‘quv testlari",
-    "❤️ Psixologik tavsiyalar"
-])
+# 1️⃣ Foydalanish vaqti limiti
+st.header("⏱ Internetdan foydalanish limiti")
+minutes = st.number_input("Bugun internetni necha daqiqa ishlatmoqchisiz?", min_value=1, step=1)
 
-if menu == "⏱ Internet vaqtini nazorat qilish":
-    vaqt = st.number_input("Necha daqiqa foydalanmoqchisiz?", 1, 180)
-    if st.button("Boshlash"):
-        with st.spinner(f"{vaqt} daqiqa davomida vaqt nazorati ishlayabdi...⌛")
-            time.sleep(vaqt * 60) # daqiqani soniyaga o'giradi
-        st.success(f"✅ {vaqt} daqiqa tugadi! Endi dam oling 🌿")
+if st.button("Boshlash"):
+    st.success(f"⏰ Vaqt boshlandi: {minutes} daqiqa")
+    with st.spinner(f"{minutes} daqiqa davomida vaqt nazorati ishlayapti...⌛"):  # shu joy to‘g‘rilandi
+        time.sleep(minutes * 60)  # haqiqiy daqiqa asosida ishlaydi
+    st.warning("⏳ Vaqt tugadi! Dam oling, real hayotga e’tibor bering ❤️")
 
-elif menu == "🔒 Kiberxavfsizlik tekshiruvi":
-    link = st.text_input("Havolani kiriting:")
-    zararli = ["phishing", "spam", "malware", "virus", "apk"]
-    if st.button("Tekshirish"):
-        if any(s in link.lower() for s in zararli):
-            st.error("⚠️ Xavfli havola topildi!")
-        elif link.strip() == "":
-            st.warning("Havola kiritilmadi.")
-        else:
-            st.success("✅ Havola xavfsizdek ko‘rinadi.")
+# 2️⃣ O‘quv testi
+st.header("🧠 Axborot madaniyati testi")
+st.write("Quyidagi savollarga javob bering:")
 
-elif menu == "🧠 O‘quv testlari":
-    st.write("Axborot madaniyati testi")
-    savollar = {
-        "Internetda shaxsiy ma’lumotlarni kimga berish mumkin?": "Hech kimga",
-        "Parol qanday bo‘lishi kerak?": "Uzoq, murakkab va maxfiy",
-        "Internetdagi yolg‘on xabarlar nima deb ataladi?": "Fake news",
-    }
-
-    ball = 0
-   elif menu == "🧠 O‘quv testlari":
-    st.write("Axborot madaniyati testi")
-
-    savollar = [
-        {
-            "savol": "Internetda shaxsiy ma’lumotlarni kimga berish mumkin?",
-            "variantlar": ["Hech kimga", "Har kimga", "Do‘stlarimga", "Ijtimoiy tarmoqlarga"],
-            "javob": "Hech kimga"
-        },
-        {
-            "savol": "Parol qanday bo‘lishi kerak?",
-            "variantlar": ["Uzoq, murakkab va maxfiy", "Qisqa va esda qoladigan", "Faqat ismim", "Telefon raqamim"],
-            "javob": "Uzoq, murakkab va maxfiy"
-        },
-        {
-            "savol": "Internetdagi yolg‘on xabarlar nima deb ataladi?",
-            "variantlar": ["Trend", "Fake news", "Promo", "Spam"],
-            "javob": "Fake news"
-        }
+savollar = {
+    "Internetda noma’lum havolani bosish xavflimi?": ["Ha", "Yo‘q", "Ba’zida"],
+    "Parolingizni boshqalar bilan ulashish mumkinmi?": ["Ha", "Yo‘q", "Faqat do‘stlar bilan"],
+    "Kiberbulling (online haqorat)ga duch kelsangiz nima qilasiz?": [
+        "E’tibor bermayman",
+        "Ishonchli kattalarga aytaman",
+        "O‘zim ham javob qaytaraman"
     ]
+}
 
-    ball = 0
-    for i, item in enumerate(savollar):
-        javob = st.radio(item["savol"], item["variantlar"], key=f"savol_{i}")
-        if javob == item["javob"]:
-            ball += 1
+javoblar = {
+    "Internetda noma’lum havolani bosish xavflimi?": "Ha",
+    "Parolingizni boshqalar bilan ulashish mumkinmi?": "Yo‘q",
+    "Kiberbulling (online haqorat)ga duch kelsangiz nima qilasiz?": "Ishonchli kattalarga aytaman"
+}
 
-    if st.button("Natija"):
-        st.success(f"Siz {ball}/{len(savollar)} ball to‘pladingiz 🎯")
-        if ball == len(savollar):
-            st.balloons()
-            st.info("Ajoyib! Siz axborot madaniyatini juda yaxshi bilasiz 👏")
-        elif ball >= 2:
-            st.warning("Yaxshi, lekin biroz ehtiyot bo‘lish kerak 💡")
-        else:
-            st.error("Ko‘proq o‘rganish tavsiya qilinadi 📘")
-    if st.button("Natija"):
-        st.success(f"Siz {ball}/{len(savollar)} ball to‘pladingiz 🎯")
+foydalanuvchi_javoblari = {}
+for savol, variantlar in savollar.items():
+    javob = st.radio(savol, variantlar)
+    foydalanuvchi_javoblari[savol] = javob
 
-elif menu == "❤️ Psixologik tavsiyalar":
-    tavsiyalar = [
-        "Bugun internetdan keyin 30 daqiqa sayr qiling 🌿",
-        "Har 1 soatda 10 daqiqa tanaffus qiling ☕",
-        "Telefonni uxlaganda yotoqxonadan uzoqda saqlang 📵",
-        "Do‘stlaringiz bilan yuzma-yuz suhbatlashing 🤝",
-    ]
-    if st.button("Bugungi tavsiyani ko‘rish"):
-        st.info(random.choice(tavsiyalar))
+if st.button("Natijani ko‘rish"):
+    to‘g‘ri = sum(foydalanuvchi_javoblari[s] == javoblar[s] for s in savollar)
+    st.success(f"Siz {len(savollar)} savoldan {to‘g‘ri} tasiga to‘g‘ri javob berdingiz 🎉")
+    if to‘g‘ri == len(savollar):
+        st.balloons()
+    else:
+        st.info("Yaxshi harakat! Qayta urinib ko‘rishingiz mumkin 🧠")
+
+# 3️⃣ Psixologik tavsiya
+st.header("💡 Psixologik tavsiya")
+st.write("Har kuni kamida 1 soat internetdan tashqarida vaqt o‘tkazing — sport, o‘qish yoki yaqinlaringiz bilan suhbat ❤️")
+
