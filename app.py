@@ -16,13 +16,13 @@ menu = st.sidebar.radio("Bo‘limni tanlang:", [
 if menu == "⏱ Internet vaqtini nazorat qilish":
     vaqt = st.number_input("Necha daqiqa foydalanmoqchisiz?", 1, 180)
     if st.button("Boshlash"):
-        with st.spinner("Vaqt ishlayapti... ⏳"):
-            time.sleep(2)
+        with st.spinner(f"{vaqt} daqiqa davomida vaqt nazorati ishlayabdi...⌛")
+            time.sleep(vaqt * 60) # daqiqani soniyaga o'giradi
         st.success(f"✅ {vaqt} daqiqa tugadi! Endi dam oling 🌿")
 
 elif menu == "🔒 Kiberxavfsizlik tekshiruvi":
     link = st.text_input("Havolani kiriting:")
-    zararli = ["phishing", "spam", "malware", "virus"]
+    zararli = ["phishing", "spam", "malware", "virus", "apk"]
     if st.button("Tekshirish"):
         if any(s in link.lower() for s in zararli):
             st.error("⚠️ Xavfli havola topildi!")
@@ -40,10 +40,42 @@ elif menu == "🧠 O‘quv testlari":
     }
 
     ball = 0
-    for s, javob in savollar.items():
-        ans = st.radio(s, ["Hech kimga", "Har kimga", "Fake news", "Uzoq, murakkab va maxfiy"], key=s)
-        if ans == javob:
+   elif menu == "🧠 O‘quv testlari":
+    st.write("Axborot madaniyati testi")
+
+    savollar = [
+        {
+            "savol": "Internetda shaxsiy ma’lumotlarni kimga berish mumkin?",
+            "variantlar": ["Hech kimga", "Har kimga", "Do‘stlarimga", "Ijtimoiy tarmoqlarga"],
+            "javob": "Hech kimga"
+        },
+        {
+            "savol": "Parol qanday bo‘lishi kerak?",
+            "variantlar": ["Uzoq, murakkab va maxfiy", "Qisqa va esda qoladigan", "Faqat ismim", "Telefon raqamim"],
+            "javob": "Uzoq, murakkab va maxfiy"
+        },
+        {
+            "savol": "Internetdagi yolg‘on xabarlar nima deb ataladi?",
+            "variantlar": ["Trend", "Fake news", "Promo", "Spam"],
+            "javob": "Fake news"
+        }
+    ]
+
+    ball = 0
+    for i, item in enumerate(savollar):
+        javob = st.radio(item["savol"], item["variantlar"], key=f"savol_{i}")
+        if javob == item["javob"]:
             ball += 1
+
+    if st.button("Natija"):
+        st.success(f"Siz {ball}/{len(savollar)} ball to‘pladingiz 🎯")
+        if ball == len(savollar):
+            st.balloons()
+            st.info("Ajoyib! Siz axborot madaniyatini juda yaxshi bilasiz 👏")
+        elif ball >= 2:
+            st.warning("Yaxshi, lekin biroz ehtiyot bo‘lish kerak 💡")
+        else:
+            st.error("Ko‘proq o‘rganish tavsiya qilinadi 📘")
     if st.button("Natija"):
         st.success(f"Siz {ball}/{len(savollar)} ball to‘pladingiz 🎯")
 
